@@ -16,7 +16,6 @@ const appRoutes = [
   { path: "/", element: <Login /> },
   { path: "/register", element: <Register /> },
   { path: "/register/otp", element: <OtpVerification /> },
-  // flujo de recuperación de contraseña (solicitud de correo + validación OTP)
   { path: "/recover-password", element: <PasswordRecoveryRequest /> },
   { path: "/recover-password/otp", element: <PasswordRecoveryOtp /> },
   {

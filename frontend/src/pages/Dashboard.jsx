@@ -7,11 +7,11 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"; // Componentes de tabla
 import { useAuth } from "@/hooks/useAuth"; // Hook personalizado para autenticación
 
-const TOKEN_KEY = "accessToken"; // Clave para almacenar el token de acceso en localStorage
+const TOKEN_KEY = "accessToken"; 
 
 const getStoredToken = () => localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY); // Función para obtener el token almacenado en localStorage
 
-// Funciones de normalización para asegurar que los datos tengan un formato consistente
+
 const normalizeUser = (user = {}) => ({
   id: user._id || user.id || "",
   name: user.name || "",
@@ -21,7 +21,7 @@ const normalizeUser = (user = {}) => ({
   isVerified: Boolean(user.isVerified),
 });
 
-// Normalización de productos para asegurar que los datos tengan un formato consistente
+
 const normalizeProduct = (product = {}) => ({
   id: product._id || product.id || "",
   name: product.name || "",

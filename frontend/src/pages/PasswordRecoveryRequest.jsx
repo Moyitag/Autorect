@@ -9,11 +9,10 @@ import { Label } from "@/components/ui/label";
 
 function PasswordRecoveryRequest() {
   const navigate = useNavigate();
-  const API_RECOVERY = "http://localhost:3000/api/password-recovery"; // endpoint para iniciar el flujo de recuperación
+  const API_RECOVERY = "http://localhost:3000/api/password-recovery"; 
 
-  const [email, setEmail] = useState(""); // correo que solicita la recuperación
-  const [isSubmitting, setIsSubmitting] = useState(false); // estado de envío del formulario
-
+  const [email, setEmail] = useState(""); 
+  const [isSubmitting, setIsSubmitting] = useState(false); 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -45,7 +44,7 @@ function PasswordRecoveryRequest() {
       // guardamos temporalmente el correo para permitir reenvío de OTP en la siguiente vista
       sessionStorage.setItem("pendingPasswordRecovery", JSON.stringify({ email: email.trim() }));
       toast.success(payload?.message || "Código de recuperación enviado");
-      navigate("/recover-password/otp"); // redirigimos al paso de validación OTP
+      navigate("/recover-password/otp");
     } catch (error) {
       toast.error(error.message || "No se pudo iniciar la recuperación");
     } finally {

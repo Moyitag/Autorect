@@ -12,16 +12,16 @@ import { isStrongPassword } from "@/lib/password-policy";
 
 function PasswordRecoveryOtp() {
   const navigate = useNavigate();
-  const API_RECOVERY = "http://localhost:3000/api/password-recovery"; // endpoint para reenvío de código OTP
-  const API_RECOVERY_VERIFY = "http://localhost:3000/api/password-recovery/verify"; // endpoint para validar OTP y actualizar contraseña
+  const API_RECOVERY = "http://localhost:3000/api/password-recovery"; 
+  const API_RECOVERY_VERIFY = "http://localhost:3000/api/password-recovery/verify"; 
 
-  const [otpCode, setOtpCode] = useState(""); // código OTP ingresado por el usuario
-  const [newPassword, setNewPassword] = useState(""); // nueva contraseña a establecer
-  const [confirmPassword, setConfirmPassword] = useState(""); // confirmación de contraseña
-  const [showPassword, setShowPassword] = useState(false); // visibilidad del campo nueva contraseña
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // visibilidad del campo confirmación
-  const [isSubmitting, setIsSubmitting] = useState(false); // estado de validación del formulario principal
-  const [isResending, setIsResending] = useState(false); // estado de reenvío del OTP
+  const [otpCode, setOtpCode] = useState(""); 
+  const [newPassword, setNewPassword] = useState(""); 
+  const [confirmPassword, setConfirmPassword] = useState(""); 
+  const [showPassword, setShowPassword] = useState(false); 
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); 
+  const [isSubmitting, setIsSubmitting] = useState(false); 
+  const [isResending, setIsResending] = useState(false); 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -69,9 +69,9 @@ function PasswordRecoveryOtp() {
         throw new Error((payload?.message || "No se pudo validar la recuperación") + details);
       }
 
-      sessionStorage.removeItem("pendingPasswordRecovery"); // limpiamos datos temporales al finalizar el flujo
+      sessionStorage.removeItem("pendingPasswordRecovery"); 
       toast.success(payload?.message || "Contraseña actualizada correctamente");
-      navigate("/"); // redirigimos al login al completar el cambio de contraseña
+      navigate("/"); 
     } catch (error) {
       toast.error(error.message || "Error validando código de recuperación");
     } finally {
@@ -80,7 +80,7 @@ function PasswordRecoveryOtp() {
   };
 
   const handleResend = async () => {
-    const rawPending = sessionStorage.getItem("pendingPasswordRecovery"); // recuperamos el correo guardado en el paso anterior
+    const rawPending = sessionStorage.getItem("pendingPasswordRecovery"); 
     if (!rawPending) {
       toast.error("No hay solicitud de recuperación para reenviar");
       return;
@@ -89,7 +89,7 @@ function PasswordRecoveryOtp() {
     setIsResending(true);
 
     try {
-      const payload = JSON.parse(rawPending); // reutilizamos el mismo correo para solicitar un nuevo OTP
+      const payload = JSON.parse(rawPending); 
       const response = await fetch(API_RECOVERY, {
         method: "POST",
         headers: {

@@ -56,7 +56,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useAuth } from "@/hooks/useAuth"; // Hook personalizado para autenticación
+import { useAuth } from "@/hooks/useAuth"; 
 
 const emptyProductForm = {
   name: "",
@@ -133,7 +133,7 @@ const validateProductForm = (form) => {
 
 function Products() {
   const [products, setProducts] = useState([]);
-  const { API, logout, getStoredToken } = useAuth(); // Obtener la URL de la API, logout y helper para token desde el hook de autenticación
+  const { API, logout, getStoredToken } = useAuth(); 
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -152,43 +152,35 @@ function Products() {
   const [sortBy, setSortBy] = useState("name-asc");
 
   const fetchProducts = useCallback(async () => {
-    // Función segura para obtener productos desde la API
     setLoading(true);
     setError("");
 
     try {
-      // Obtener token desde storage (coincide con AuthProvider)
       const token =
         localStorage.getItem("accessToken") ||
         sessionStorage.getItem("accessToken");
       if (!token) {
-        // No hay token: cerrar sesión localmente
         await logout({ reason: "expired", callApi: false });
         return;
       }
 
-      // Configurar los encabezados de la solicitud con el token de acceso
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       };
 
-      // Realizar solicitudes simultáneas para obtener usuarios y productos
       const productsRes = await fetch(`${API}/products`, {
         headers,
         credentials: "include",
       });
 
-      // Si alguna de las respuestas indica que el token ha expirado o es inválido, cerrar sesión localmente sin llamar a la API de logout
       if (productsRes.status === 401) {
         await logout({ reason: "expired", callApi: false });
         return;
       }
 
-      // Intentar parsear las respuestas como JSON, manejando cualquier error
       const productsPayload = await productsRes.json().catch(() => ({}));
 
-      // Validar que la respuesta de productos sea exitosa
       if (!productsRes.ok) {
         throw new Error(
           productsPayload?.message ||
@@ -196,7 +188,6 @@ function Products() {
         );
       }
 
-      // Aceptar diferentes estructuras: { data: [...] } o [...]
       let productsData = [];
       if (Array.isArray(productsPayload)) {
         productsData = productsPayload;
@@ -237,7 +228,6 @@ function Products() {
     }
   }, [API, logout]);
 
-  // Efecto para cargar los datos de los productos cuando el componente se monta o cuando la función de obtención de datos cambia
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
@@ -334,7 +324,6 @@ function Products() {
     if (!deleteTarget) {
       return;
     }
-    // Intentar eliminar en la API si hay _id
     (async () => {
       try {
         const token =
@@ -367,7 +356,6 @@ function Products() {
           );
         }
 
-        // Si todo bien, actualizar el estado local
         setProducts((prev) =>
           prev.filter((item) => (item._id || item.id) !== idToDelete),
         );
@@ -437,7 +425,6 @@ function Products() {
           throw new Error(created?.message || "No se pudo crear el producto");
         }
 
-        // Normalizar producto devuelto y actualizar estado
         const normalize = (p) => ({
           _id: p._id || null,
           id: p.id || p._id || `PRD-${String(Date.now)().slice(-6)}`,
@@ -455,7 +442,6 @@ function Products() {
 
         const createdNormalized = normalize(created.data || created || {});
 
-        // Si todo bien, actualizar el estado local
         setProducts((prev) => [createdNormalized, ...prev]);
         setCreateForm(emptyProductForm);
         setCreateErrors({});
@@ -504,7 +490,6 @@ function Products() {
 
         if (!res.ok) throw new Error(data.message);
 
-        // Normalizar producto devuelto para que el UI lo muestre inmediatamente
         const returned = data.data || data || {};
         const normalize = (p) => ({
           _id: p._id || null,
@@ -523,7 +508,6 @@ function Products() {
 
         const updatedNormalized = normalize(returned);
 
-        // actualizar UI con el producto normalizado
         setProducts((prev) => prev.map((p) => ((p._id || p.id) === id ? updatedNormalized : p)));
 
         setIsEditOpen(false);

@@ -6,30 +6,29 @@ import { Input } from "@/components/ui/input"; // Importación de componente de 
 import { Label } from "@/components/ui/label"; // Importación de componente de etiqueta personalizado para la interfaz de usuario
 import { useAuth } from "@/hooks/useAuth"; // Importación de hook personalizado para manejar la autenticación del usuario
 
-// Componente de inicio de sesión que maneja la autenticación del usuario y la navegación al dashboard
+
 function Login() {
   const navigate = useNavigate(); // Hook para manejar la navegación programática
   const { login, loading } = useAuth(); // Hook personalizado para manejar la autenticación del usuario
   const [email, setEmail] = useState(""); // Estado local para almacenar el correo electrónico ingresado por el usuario
   const [password, setPassword] = useState(""); // Estado local para almacenar la contraseña ingresada por el usuario
 
-  // Función para manejar el envío del formulario de inicio de sesión
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!email.trim() || !password.trim()) { // Validación básica para asegurarse de que el correo electrónico y la contraseña no estén vacíos
-      return;
+    if (!email.trim() || !password.trim()) { 
     }
 
-    const ok = await login(email.trim(), password); // Llamada a la función de inicio de sesión del hook personalizado
+    const ok = await login(email.trim(), password); 
     if (!ok) {
       return;
     }
 
-    navigate("/dashboard"); // Navegación al dashboard si el inicio de sesión es exitoso
+    navigate("/dashboard"); 
   };
 
-  return ( // Renderizado del formulario de inicio de sesión con estilos personalizados y enlaces para crear una cuenta nueva
+  return ( 
     <section className="relative min-h-screen overflow-hidden bg-[#1F1F1F] text-white">
       <div className="pointer-events-none absolute inset-0" style={{background: "radial-gradient(circle at 20% 18%, rgba(130,39,39,0.35), transparent 38%)"}} />
 
